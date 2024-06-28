@@ -1,0 +1,8 @@
+name: 'Bonjour'
+description: 'Hello'
+runs:
+  using: "composite"
+  steps:
+    - name: Do the thing
+      run: echo "Bonjour..."
+      shell: bash
