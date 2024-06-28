@@ -6,3 +6,36 @@ runs:
     - name: Do the thing
       run: echo "Bonjour..."
       shell: bash
+
+    - uses: actions/cache@v4
+      name: Cache plugin dir
+      with:
+        path: ~/.tflint.d/
+        key: tflint-${{ hashFiles('.tflint.hcl') }}
+
+    - uses: terraform-linters/setup-tflint@v4
+      name: Setup TFLint
+      with:
+        tflint_version: v0.51.1
+        tflint_wrapper: false
+
+    - name: Show TFLint version
+      run: | 
+        tflint --version
+        which tflint
+        echo $GITHUB_PATH
+        ls -al ~/.tflint.d/
+      shell: bash
+
+    - name: Init TFLint
+      id: tflint
+      run: tflint --init
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Run TFLint
+      run: tflint -f compact --minimum-failure-severity=warning
+      shell: bash
+      # echo ${{ steps.tflint.outputs.stdout }}
+      # echo ${{ steps.tflint.outputs.stderr }}
