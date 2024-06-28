@@ -35,7 +35,7 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Run TFLint
-      run: tflint -f compact --minimum-failure-severity=warning
+      run: tflint -f compact --minimum-failure-severity=error
       shell: bash
       # echo ${{ steps.tflint.outputs.stdout }}
       # echo ${{ steps.tflint.outputs.stderr }}
